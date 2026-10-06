@@ -22,8 +22,8 @@ def make_candidate(query: str, score: float = 0.0) -> SearchCandidate:
 
 def test_budget_rejects_negative_and_exhausted_limits():
     with pytest.raises(ValueError):
-        QueryBudget(10, maximum=-1)
-    budget = QueryBudget(10, maximum=1)
+        QueryBudget(word_count=10, maximum=-1)
+    budget = QueryBudget(word_count=10, maximum=1)
     assert budget.remaining == 1
     budget.consume()
     assert budget.used == 1
@@ -60,7 +60,7 @@ def test_dispatch_does_not_consume_budget_for_cache_hits(tmp_path):
         calls.append(query)
         return [make_candidate(query)]
 
-    budget = QueryBudget(10, maximum=1)
+    budget = QueryBudget(word_count=10, maximum=1)
     results = asyncio.run(dispatch_queries(["cached", "new"], provider, budget, cache))
     assert [item.matched_query for item in results] == ["cached", "new"]
     assert calls == ["new"]
@@ -76,7 +76,9 @@ def test_dispatch_stops_before_later_queries_when_overlap_is_verified(tmp_path):
         calls.append(query)
         return [make_candidate(query, score=0.71)]
 
-    results = asyncio.run(dispatch_queries(["a", "b", "c"], provider, QueryBudget(100), cache))
+    results = asyncio.run(
+        dispatch_queries(["a", "b", "c"], provider, QueryBudget(word_count=100), cache)
+    )
     assert len(results) == 1
     assert calls == ["a"]
     cache.close()

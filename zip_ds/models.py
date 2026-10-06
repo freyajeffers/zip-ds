@@ -37,7 +37,7 @@ class DocumentChunk(ValidatedModel):
         return value
 
     @model_validator(mode="after")
-    def validate_offsets_and_tokens(self) -> "DocumentChunk":
+    def validate_offsets_and_tokens(self) -> DocumentChunk:
         if self.end_offset - self.start_offset != len(self.raw_text):
             raise ValueError("offsets must span raw_text")
         if self.token_count != len(self.raw_text.split()):

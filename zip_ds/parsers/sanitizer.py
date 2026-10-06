@@ -1,12 +1,23 @@
 import re
 import unicodedata
-from dataclasses import dataclass
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-@dataclass(frozen=True)
-class NormalizedText:
+class NormalizedText(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+
     text: str
-    offsets: list[tuple[int, int]]
+    offsets: list[tuple[int, int]] = Field(min_length=0)
+
+    @model_validator(mode="after")
+    def validate_offsets(self) -> NormalizedText:
+        if len(self.offsets) != len(self.text):
+            raise ValueError("one source offset pair is required per normalized character")
+        for start, end in self.offsets:
+            if start < 0 or end <= start:
+                raise ValueError("offsets must be non-negative and ordered")
+        return self
 
 
 def normalize_text(text: str) -> NormalizedText:
@@ -20,7 +31,7 @@ def normalize_text(text: str) -> NormalizedText:
         normalized = unicodedata.normalize("NFKC", ch)
         chars.append(normalized)
         offsets.append((idx, idx + 1))
-    return NormalizedText("".join(chars), offsets)
+    return NormalizedText(text="".join(chars), offsets=offsets)
 
 
 def isolate_bibliography(text: str) -> tuple[str, str]:
