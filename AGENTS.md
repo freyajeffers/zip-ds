@@ -18,6 +18,8 @@ Invariant 6: Length-Invariant Accuracy & Small-Sample Guardrails
 Agents must enforce length-aware routing. For submissions under 300 words, agents must never execute statistical variance or CUSUM change-point stylometry (which produces false anomalies on sparse tokens) and must instead trigger dense micro-shingle generation. For all submissions, matches shorter than 7 contiguous words or equivalent semantic units must be suppressed to prevent idiomatic false positives.
 Invariant 7: Explicit Public API Surface
 All internal modules and implementation details must remain private by default. Every public-facing package must use `__init__.py` to export its primary interfaces via `__all__`, enabling a flat and stable developer API. Deep imports into implementation sub-modules are strictly prohibited for consumers.
+Invariant 8: Pydantic-First Data Contracts
+Use Pydantic v2 `BaseModel` schemas for every input, output, configuration, cache, and inter-module data contract wherever technically possible. Enable strict validation, reject unknown fields, validate assignments where state is mutable, and use field/model validators for invariants. Use dataclasses only when a Pydantic model cannot represent the requirement and document that exception.
 . Engineering Discipline & Prohibitions
 No Code Bloat or Premature Monoliths: Avoid giant single-file implementations. Structure each phase into focused modules under 250 lines with explicit responsibilities (e.g., parsers/, stylometry/, queries/, retrieval/, alignment/, reporting/).
 Editor & File Cleanliness: Ensure git ignores and service boundaries actively filter out transient editor artifacts (Vim swap files ._.swp, persistent undo files ._.un~, backup files *~, and temporary files *.tmp).
