@@ -8,7 +8,7 @@
 4. Phase 4: scoring, report synthesis, and REST API.
 5. Phase 5: systemd hardening and benchmark evaluation.
 
-The current implementation is the Phase 1 foundation. Phase 2 must consume `DocumentChunk` objects rather than raw files; later phases must not bypass the path-validation and ephemeral-data boundaries.
+The current implementation includes the Phase 1 foundation and Phase 2 query/budget/cache scaffolding. Phase 2 consumes generated query strings; later phases must not bypass the path-validation and ephemeral-data boundaries.
 
 ## Local commands
 
