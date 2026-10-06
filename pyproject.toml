@@ -7,7 +7,7 @@ authors = [
     { name = "Freya Jeffers", email = "fboniface@unr.edu" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["pdfplumber", "python-docx", "pydantic>=2.0", "blake3", "pytest", "pytest-cov"]
 
 [project.scripts]
 plaigarism = "plaigarism:main"
