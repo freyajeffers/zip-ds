@@ -4,7 +4,14 @@ import pdfplumber
 from docx import Document
 
 
+def _validated_path(path: str) -> str:
+    if not isinstance(path, str) or not path:
+        raise TypeError("path must be a non-empty string")
+    return path
+
+
 def read_txt(path: str) -> tuple[str, list[tuple[int, int]]]:
+    path = _validated_path(path)
     with open(path, "r", encoding="utf-8") as f:
         text = f.read()
     # naive single chunk covering the whole file
@@ -12,6 +19,7 @@ def read_txt(path: str) -> tuple[str, list[tuple[int, int]]]:
 
 
 def read_pdf(path: str) -> tuple[str, list[tuple[int, int]]]:
+    path = _validated_path(path)
     with pdfplumber.open(path) as pdf:
         pages = [p.extract_text() or "" for p in pdf.pages]
     text = "\n".join(pages)
@@ -19,6 +27,7 @@ def read_pdf(path: str) -> tuple[str, list[tuple[int, int]]]:
 
 
 def read_docx(path: str) -> tuple[str, list[tuple[int, int]]]:
+    path = _validated_path(path)
     doc = Document(path)
     paras = [p.text for p in doc.paragraphs]
     text = "\n".join(paras)

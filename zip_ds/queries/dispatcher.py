@@ -2,7 +2,6 @@ import json
 import sqlite3
 import time
 from collections.abc import Awaitable, Callable
-from dataclasses import asdict
 from hashlib import sha256
 from pathlib import Path
 
@@ -20,6 +19,8 @@ class QueryBudget:
             if maximum is not None
             else min(45, max(3, int(3 + 0.008 * word_count + 0.999999)))
         )
+        if self.limit < 0:
+            raise ValueError("maximum query budget cannot be negative")
         self.used = 0
 
     def consume(self) -> None:
@@ -67,9 +68,7 @@ class SerpCache:
 
     def put(self, query: str, candidates: list[SearchCandidate]) -> None:
         key = sha256(query.strip().lower().encode()).hexdigest()
-        payload = json.dumps(
-            [{**asdict(item), "source_type": item.source_type.value} for item in candidates]
-        )
+        payload = json.dumps([item.model_dump(mode="json") for item in candidates])
         self._connection.execute(
             "INSERT OR REPLACE INTO serp_cache VALUES (?, ?, ?, ?)",
             (key, query, payload, time.time()),

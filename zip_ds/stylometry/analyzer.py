@@ -31,6 +31,8 @@ _FUNCTION_WORDS = {
 
 
 def _words(text: str) -> list[str]:
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
     return re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", text.lower())
 
 

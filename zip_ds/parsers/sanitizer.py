@@ -10,6 +10,8 @@ class NormalizedText:
 
 
 def normalize_text(text: str) -> NormalizedText:
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
     chars = []
     offsets = []
     for idx, ch in enumerate(text):
@@ -22,6 +24,8 @@ def normalize_text(text: str) -> NormalizedText:
 
 
 def isolate_bibliography(text: str) -> tuple[str, str]:
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
     match = re.search(r"(?im)^\s*(references|bibliography|works cited)\s*$", text)
     if not match:
         return text, ""
