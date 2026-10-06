@@ -22,3 +22,14 @@ def test_canonicalize_and_validate(tmp_path):
     real = canonicalize_and_validate(str(f), root)
     assert real.startswith(root)
 
+
+def test_canonicalize_rejects_sibling_prefix(tmp_path):
+    import pytest
+
+    root = tmp_path / "allowed"
+    sibling = tmp_path / "allowed-escape"
+    root.mkdir()
+    sibling.mkdir()
+    with pytest.raises(ValueError):
+        canonicalize_and_validate(str(sibling / "x.txt"), str(root))
+

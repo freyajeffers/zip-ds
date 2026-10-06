@@ -28,6 +28,10 @@ def read_docx(path: str) -> tuple[str, list[tuple[int,int]]]:
 def canonicalize_and_validate(path: str, root: str) -> str:
     real = os.path.realpath(path)
     root_real = os.path.realpath(root)
-    if not real.startswith(root_real):
+    try:
+        inside_root = os.path.commonpath([real, root_real]) == root_real
+    except ValueError as exc:
+        raise ValueError("Path escapes authorized root") from exc
+    if not inside_root:
         raise ValueError("Path escapes authorized root")
     return real
