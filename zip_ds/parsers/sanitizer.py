@@ -1,13 +1,12 @@
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import List, Tuple
 
 
 @dataclass(frozen=True)
 class NormalizedText:
     text: str
-    offsets: List[Tuple[int, int]]
+    offsets: list[tuple[int, int]]
 
 
 def normalize_text(text: str) -> NormalizedText:
@@ -22,8 +21,8 @@ def normalize_text(text: str) -> NormalizedText:
     return NormalizedText("".join(chars), offsets)
 
 
-def isolate_bibliography(text: str) -> Tuple[str, str]:
+def isolate_bibliography(text: str) -> tuple[str, str]:
     match = re.search(r"(?im)^\s*(references|bibliography|works cited)\s*$", text)
     if not match:
         return text, ""
-    return text[:match.start()].rstrip(), text[match.start():].lstrip()
+    return text[: match.start()].rstrip(), text[match.start() :].lstrip()

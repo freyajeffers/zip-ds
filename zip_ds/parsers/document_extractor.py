@@ -4,21 +4,21 @@ import pdfplumber
 from docx import Document
 
 
-def read_txt(path: str) -> tuple[str, list[tuple[int,int]]]:
-    with open(path, 'r', encoding='utf-8') as f:
+def read_txt(path: str) -> tuple[str, list[tuple[int, int]]]:
+    with open(path, "r", encoding="utf-8") as f:
         text = f.read()
     # naive single chunk covering the whole file
     return text, [(0, len(text))]
 
 
-def read_pdf(path: str) -> tuple[str, list[tuple[int,int]]]:
+def read_pdf(path: str) -> tuple[str, list[tuple[int, int]]]:
     with pdfplumber.open(path) as pdf:
         pages = [p.extract_text() or "" for p in pdf.pages]
     text = "\n".join(pages)
     return text, [(0, len(text))]
 
 
-def read_docx(path: str) -> tuple[str, list[tuple[int,int]]]:
+def read_docx(path: str) -> tuple[str, list[tuple[int, int]]]:
     doc = Document(path)
     paras = [p.text for p in doc.paragraphs]
     text = "\n".join(paras)

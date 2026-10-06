@@ -1,11 +1,32 @@
-import math
 import re
 from collections import Counter
 
 from zip_ds.models import StyleScores
 
 _FUNCTION_WORDS = {
-    "a", "an", "and", "as", "at", "but", "by", "for", "from", "in", "of", "on", "or", "the", "to", "with", "is", "are", "was", "were", "it", "this", "that"
+    "a",
+    "an",
+    "and",
+    "as",
+    "at",
+    "but",
+    "by",
+    "for",
+    "from",
+    "in",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "with",
+    "is",
+    "are",
+    "was",
+    "were",
+    "it",
+    "this",
+    "that",
 }
 
 

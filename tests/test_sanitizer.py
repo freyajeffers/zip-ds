@@ -2,7 +2,7 @@ from zip_ds.parsers.sanitizer import isolate_bibliography, normalize_text
 
 
 def test_normalize_text_removes_control_characters():
-    result = normalize_text("A\x00B\u212B")
+    result = normalize_text("A\x00B\u212b")
     assert result.text == "ABÅ"
     assert len(result.offsets) == len(result.text)
 

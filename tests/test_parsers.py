@@ -32,4 +32,3 @@ def test_canonicalize_rejects_sibling_prefix(tmp_path):
     sibling.mkdir()
     with pytest.raises(ValueError):
         canonicalize_and_validate(str(sibling / "x.txt"), str(root))
-

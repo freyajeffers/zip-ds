@@ -7,7 +7,10 @@ def _tokens(text: str) -> list[str]:
 
 def shingles(text: str, size: int = 8, step: int = 1) -> list[str]:
     tokens = _tokens(text)
-    return ["\"" + " ".join(tokens[i : i + size]) + "\"" for i in range(0, max(0, len(tokens) - size + 1), step)]
+    return [
+        '"' + " ".join(tokens[i : i + size]) + '"'
+        for i in range(0, max(0, len(tokens) - size + 1), step)
+    ]
 
 
 def query_budget(word_count: int) -> int:

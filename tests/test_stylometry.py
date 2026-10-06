@@ -1,4 +1,9 @@
-from zip_ds.stylometry.analyzer import analyze, average_sentence_length, average_word_length, yules_k
+from zip_ds.stylometry.analyzer import (
+    analyze,
+    average_sentence_length,
+    average_word_length,
+    yules_k,
+)
 
 
 def test_basic_style_metrics():

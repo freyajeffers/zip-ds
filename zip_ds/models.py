@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -15,7 +14,7 @@ class StyleScores:
 class DocumentChunk:
     chunk_id: str
     chunk_hash: str
-    parent_chunk_id: Optional[str]
+    parent_chunk_id: str | None
     start_offset: int
     end_offset: int
     raw_text: str
