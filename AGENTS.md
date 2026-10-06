@@ -12,10 +12,12 @@ Invariant 3: Bounded Query Economics
 No single document scan may trigger unbounded external search API calls. All query dispatching must route through the TokenBucket rate limiter and QueryBudgetManager (default hard ceiling: 20 queries per 1,000 words). If exhausted, halt external search and report partial coverage.
 Invariant 4: Non-Blocking SQLite Concurrency
 All SQLite connections must be configured with Write-Ahead Logging (PRAGMA journal_mode = WAL;), PRAGMA busy_timeout = 5000;, PRAGMA synchronous = NORMAL;, and PRAGMA mmap_size = 268435456;. Never hold write transactions open across network I/O or model inference calls.
-Invariant 6: Length-Invariant Accuracy & Small-Sample Guardrails
-Agents must enforce length-aware routing. For submissions under 300 words, agents must never execute statistical variance or CUSUM change-point stylometry (which produces false anomalies on sparse tokens) and must instead trigger dense micro-shingle generation. For all submissions, matches shorter than 7 contiguous words or equivalent semantic units must be suppressed to prevent idiomatic false positives.
 Invariant 5: Revision Delta Enforcement & Self-Collusion Suppression
 When scanning document revisions linked by parent_scan_id or session lineage, all unchanged chunks with identical cryptographic content hashes must reuse previously verified alignment results without re-invoking SerpAPI. Furthermore, previous drafts in the same lineage must be excluded from external candidate pools to eliminate false-positive self-plagiarism.
+Invariant 6: Length-Invariant Accuracy & Small-Sample Guardrails
+Agents must enforce length-aware routing. For submissions under 300 words, agents must never execute statistical variance or CUSUM change-point stylometry (which produces false anomalies on sparse tokens) and must instead trigger dense micro-shingle generation. For all submissions, matches shorter than 7 contiguous words or equivalent semantic units must be suppressed to prevent idiomatic false positives.
+Invariant 7: Explicit Public API Surface
+All internal modules and implementation details must remain private by default. Every public-facing package must use `__init__.py` to export its primary interfaces via `__all__`, enabling a flat and stable developer API. Deep imports into implementation sub-modules are strictly prohibited for consumers.
 . Engineering Discipline & Prohibitions
 No Code Bloat or Premature Monoliths: Avoid giant single-file implementations. Structure each phase into focused modules under 250 lines with explicit responsibilities (e.g., parsers/, stylometry/, queries/, retrieval/, alignment/, reporting/).
 Editor & File Cleanliness: Ensure git ignores and service boundaries actively filter out transient editor artifacts (Vim swap files ._.swp, persistent undo files ._.un~, backup files *~, and temporary files *.tmp).
