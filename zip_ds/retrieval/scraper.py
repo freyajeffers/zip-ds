@@ -80,13 +80,20 @@ def extract_html_text(html: str, source_url: str) -> EphemeralSource:
     )
 
 
-def _fetch_bytes(url: str, timeout: float) -> bytes:
+def scrub_buffer(buffer: bytearray) -> None:
+    """Overwrite an ephemeral byte buffer in place before releasing it."""
+    if not isinstance(buffer, bytearray):
+        raise TypeError("buffer must be a bytearray")
+    buffer[:] = b"\x00" * len(buffer)
+
+
+def _fetch_bytes(url: str, timeout: float) -> bytearray:
     request = Request(url, headers={"User-Agent": "ZIP-DS/0.1"})
     with urlopen(request, timeout=timeout) as response:
         body = cast(bytes, response.read(_MAX_RESPONSE_BYTES + 1))
     if len(body) > _MAX_RESPONSE_BYTES:
         raise ValueError("source response exceeds the in-memory size limit")
-    return body
+    return bytearray(body)
 
 
 async def fetch_candidate(
@@ -97,8 +104,12 @@ async def fetch_candidate(
     if not isinstance(timeout, float) or timeout <= 0.0:
         raise ValueError("timeout must be a positive float")
     try:
-        body = await asyncio.to_thread(_fetch_bytes, candidate.url, timeout)
-        return extract_html_text(body.decode("utf-8", errors="replace"), candidate.url)
+        raw_body = await asyncio.to_thread(_fetch_bytes, candidate.url, timeout)
+        body = raw_body if isinstance(raw_body, bytearray) else bytearray(raw_body)
+        try:
+            return extract_html_text(body.decode("utf-8", errors="replace"), candidate.url)
+        finally:
+            scrub_buffer(body)
     except (OSError, TimeoutError, ValueError, UnicodeError) as exc:
         logger.debug("Skipping candidate %s after retrieval failure: %s", candidate.url, exc)
         return None

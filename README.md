@@ -17,7 +17,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
 - Tier 2 semantic alignment uses sentence-level token-set similarity with strict thresholds and character offsets; model-based embeddings are not required.
-- Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
+- Retrieval response buffers are converted to mutable bytearrays and overwritten after HTML extraction; decoded Python strings remain bounded/ephemeral and explicit immutable-string scrubbing is not possible.
 - Structured scoring and Pydantic reporting contracts calculate evidence-weighted coverage and confidence while suppressing matches shorter than seven words.
 - `run_scan()` integrates bounded in-memory alignment and structured reporting over already retrieved sources.
 - `run_scan_from_candidates()` retrieves eligible candidates through the bounded ephemeral scraper before alignment and reporting.

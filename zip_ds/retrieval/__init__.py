@@ -3,6 +3,7 @@ from zip_ds.retrieval.scraper import (
     extract_html_text,
     fetch_candidate,
     retrieve_candidates,
+    scrub_buffer,
 )
 from zip_ds.retrieval.triage import should_retrieve_candidate, snippet_jaccard
 
@@ -11,6 +12,7 @@ __all__ = [
     "extract_html_text",
     "fetch_candidate",
     "retrieve_candidates",
+    "scrub_buffer",
     "should_retrieve_candidate",
     "snippet_jaccard",
 ]
