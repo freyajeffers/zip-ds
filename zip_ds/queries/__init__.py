@@ -8,6 +8,11 @@ from zip_ds.queries.providers import (
     ProviderManager,
     ProviderRateLimit,
 )
+from zip_ds.queries.revisions import (
+    RevisionDelta,
+    calculate_revision_delta,
+    suppress_lineage_candidates,
+)
 from zip_ds.queries.splitter import split_chunk_for_queries
 
 __all__ = [
@@ -16,14 +21,17 @@ __all__ = [
     "ProviderManager",
     "ProviderRateLimit",
     "QueryBudget",
+    "RevisionDelta",
     "SearchCandidate",
     "SerpCache",
     "SourceType",
     "TokenBucket",
     "TokenBucketSettings",
+    "calculate_revision_delta",
     "dispatch_queries",
     "generate_queries",
     "query_budget",
     "shingles",
     "split_chunk_for_queries",
+    "suppress_lineage_candidates",
 ]
