@@ -3,6 +3,7 @@ from zip_ds.models import DocumentChunk, SearchCandidate, SourceType, StyleScore
 from zip_ds.pipeline import (
     ScanSource,
     run_revision_scan,
+    run_revision_scan_chunks,
     run_scan,
     run_scan_from_candidates,
     run_scan_from_file,
@@ -17,6 +18,7 @@ __all__ = [
     "StyleScores",
     "create_app",
     "run_revision_scan",
+    "run_revision_scan_chunks",
     "run_scan",
     "run_scan_from_candidates",
     "run_scan_from_file",

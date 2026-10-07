@@ -97,6 +97,86 @@ async def run_revision_scan(
     return build_report(document_id, current_chunk.token_count, evidence)
 
 
+async def run_revision_scan_chunks(
+    document_id: str,
+    current_chunks: list[DocumentChunk],
+    previous_chunks: Iterable[DocumentChunk],
+    cached_results: Iterable[RevisionEvidence],
+    candidates: list[SearchCandidate],
+    *,
+    cache: RevisionCache | None = None,
+    excluded_lineage_urls: set[str] | None = None,
+    retriever: Callable[
+        [list[SearchCandidate], str], Awaitable[list[EphemeralSource]]
+    ] = retrieve_candidates,
+) -> PlagiarismReport:
+    """Scan multiple chunks in a revision, reusing cached evidence and retrieving only for pending chunks.
+
+    This function reads persisted derived evidence when available, rebinds cached
+    evidence to the current chunk IDs, suppresses prior-lineage candidates, and
+    performs a single batched retrieval for all pending chunks before aligning
+    each pending chunk against the retrieved ephemeral sources.
+    """
+    if not isinstance(current_chunks, list) or not all(
+        isinstance(c, DocumentChunk) for c in current_chunks
+    ):
+        raise TypeError("current_chunks must be a list of DocumentChunk models")
+    previous = list(previous_chunks)
+    previous_hashes = {chunk.chunk_hash for chunk in previous}
+
+    # Gather eligible cached results from supplied cache blobs
+    eligible_cache = [result for result in cached_results if result.chunk_hash in previous_hashes]
+    if cache is not None:
+        for chunk_hash in previous_hashes:
+            persisted = cache.get(chunk_hash)
+            if persisted is not None and all(
+                r.chunk_hash != persisted.chunk_hash for r in eligible_cache
+            ):
+                eligible_cache.append(persisted)
+
+    # Reuse evidence where possible; get pending chunks needing alignment
+    reused, pending = reuse_alignment_evidence(current_chunks, eligible_cache)
+    pending_ids = {c.chunk_id for c in pending}
+
+    # Suppress prior-lineage candidates before retrieval
+    filtered_candidates = suppress_lineage_candidates(candidates, excluded_lineage_urls or set())
+
+    # Only retrieve candidates that belong to pending chunks
+    candidates_for_pending = [
+        c for c in filtered_candidates if c.originating_chunk_id in pending_ids
+    ]
+
+    evidence: list[AlignmentEvidence] = list(reused)
+
+    if pending and candidates_for_pending:
+        # Single batched retrieval for pending candidates
+        retrieved = await retriever(
+            candidates_for_pending, " ".join(c.raw_text for c in current_chunks)
+        )
+        # Map retrieved sources by URL for per-chunk alignment
+        url_to_source = {s.source_url: s for s in retrieved}
+
+        for chunk in pending:
+            # find sources corresponding to this chunk's candidates
+            urls = [
+                c.url for c in candidates_for_pending if c.originating_chunk_id == chunk.chunk_id
+            ]
+            sources = [
+                ScanSource(url=url, text=url_to_source[url].text)
+                for url in urls
+                if url in url_to_source
+            ]
+            if not sources:
+                continue
+            report = run_scan(document_id, chunk.raw_text, sources)
+            evidence.extend(report.evidence)
+            # persist derived evidence for this chunk
+            if cache is not None:
+                cache.put(RevisionEvidence(chunk_hash=chunk.chunk_hash, evidence=report.evidence))
+
+    return build_report(document_id, sum(c.token_count for c in current_chunks), evidence)
+
+
 async def run_scan_from_candidates(
     document_id: str,
     suspicious_text: str,
