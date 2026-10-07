@@ -10,7 +10,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Document chunk hashing and query-sized chunk splitting.
 - ASL, AWL, Yule's K, and function-word metrics; short texts bypass Yule's K.
 - Bounded quoted-shingle query generation.
-- Async provider boundary, adaptive query stopping, and SQLite SERP metadata caching with WAL.
+- Async provider boundary, adaptive query stopping, token-bucket dispatch limiting, and SQLite SERP metadata caching with WAL.
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
 - Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
@@ -47,7 +47,7 @@ The supported package exports are defined in:
 
 - `zip_ds`: document and style models
 - `zip_ds.parsers`: extraction, sanitization, and typed `SecurityError` path-boundary exception
-- `zip_ds.queries`: query generation, budgets, cache, dispatch, and splitting
+- `zip_ds.queries`: query generation, budgets, token-bucket limiting, cache, dispatch, and splitting
 - `zip_ds.stylometry`: style-analysis functions
 
 All public contracts use strict Pydantic v2 models where applicable. Extraction functions require both a file path and an authorized root:

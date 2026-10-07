@@ -4,6 +4,7 @@ import time
 import pytest
 
 from zip_ds.queries.dispatcher import QueryBudget, QueryBudgetExceeded, SerpCache, dispatch_queries
+from zip_ds.queries.limiter import TokenBucket, TokenBucketSettings
 from zip_ds.queries.models import SearchCandidate, SourceType
 
 
@@ -81,6 +82,20 @@ def test_dispatch_stops_before_later_queries_when_overlap_is_verified(tmp_path):
     )
     assert len(results) == 1
     assert calls == ["a"]
+    cache.close()
+
+
+def test_dispatch_routes_provider_queries_through_token_bucket(tmp_path):
+    cache = SerpCache(tmp_path / "serp.db")
+
+    async def provider(query: str) -> list[SearchCandidate]:
+        return [make_candidate(query)]
+
+    limiter = TokenBucket(TokenBucketSettings(capacity=2, refill_rate=1.0))
+    asyncio.run(
+        dispatch_queries(["first", "second"], provider, QueryBudget(word_count=100), cache, limiter)
+    )
+    assert limiter.try_acquire() is False
     cache.close()
 
 

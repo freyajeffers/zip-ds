@@ -36,6 +36,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/chunking.py`: deterministic SHA-256 chunk identity and offsets.
 - `zip_ds/stylometry/analyzer.py`: ASL, AWL, Yule's K, function-word ratio, and short-text routing.
 - `zip_ds/retrieval/triage.py`: three-word-shingle Jaccard gate before candidate retrieval.
+- `zip_ds/queries/limiter.py`: token-bucket rate limiting for uncached provider dispatch.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/retrieval/scraper.py`: bounded in-memory HTML extraction and failure-tolerant async retrieval.
 
@@ -45,6 +46,6 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - Preserve exact character offsets.
 - Isolate References, Bibliography, and Works Cited sections.
 - Bypass Yule's K and CUSUM for 50–300-word texts.
-- Keep external source text ephemeral; no retrieval layer exists yet.
+- Keep external source text ephemeral; HTML retrieval exists, but PDF retrieval and post-alignment scrubbing do not yet exist.
 
 CI runs the same four quality gates on pushes to `main` and all pull requests via `.github/workflows/quality.yml`.

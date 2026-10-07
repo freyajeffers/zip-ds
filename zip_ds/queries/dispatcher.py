@@ -7,6 +7,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from zip_ds.queries.limiter import TokenBucket, TokenBucketSettings
 from zip_ds.queries.models import SearchCandidate, SourceType
 
 
@@ -152,6 +153,7 @@ async def dispatch_queries(
     provider: Callable[[str], Awaitable[list[SearchCandidate]]],
     budget: QueryBudget,
     cache: SerpCache,
+    limiter: TokenBucket | None = None,
 ) -> list[SearchCandidate]:
     if not isinstance(queries, list) or not all(
         isinstance(query, str) and query.strip() for query in queries
@@ -159,12 +161,17 @@ async def dispatch_queries(
         raise TypeError("queries must be a list of non-empty strings")
     if not isinstance(budget, QueryBudget) or not isinstance(cache, SerpCache):
         raise TypeError("budget and cache must use their validated boundary types")
+    if limiter is None:
+        limiter = TokenBucket(TokenBucketSettings(capacity=20, refill_rate=20.0))
+    elif not isinstance(limiter, TokenBucket):
+        raise TypeError("limiter must be a TokenBucket")
     results: list[SearchCandidate] = []
     for query in queries:
         cached = cache.get(query)
         if cached is not None:
             results.extend(cached)
             continue
+        await limiter.acquire()
         budget.consume()
         candidates = await provider(query)
         if not isinstance(candidates, list) or not all(
