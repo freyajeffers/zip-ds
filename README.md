@@ -1,6 +1,6 @@
 # Zero-Ingestion Plagiarism Detection Service (ZIP-DS)
 
-ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkout implements the Phase 1 ingestion foundation, Phase 2 query-generation/cache scaffolding, and the Phase 3 snippet-triage gate. It does not yet implement external provider clients, source retrieval, alignment, scoring, reporting, or a REST/CLI scan pipeline.
+ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkout implements document ingestion, bounded query/provider plumbing, ephemeral retrieval, alignment, scoring/reporting, revision orchestration, and a small REST API.
 
 ## Current capabilities
 
@@ -22,6 +22,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - `run_scan()` integrates bounded in-memory alignment and structured reporting over already retrieved sources.
 - `run_scan_from_candidates()` retrieves eligible candidates through the bounded ephemeral scraper before alignment and reporting.
 - `run_scan_from_file()` enforces authorized-root extraction, normalization, bibliography isolation, ephemeral retrieval, alignment, and reporting for TXT, PDF, and DOCX inputs.
+- `create_app()` exposes strict `POST /v1/scan` and process-local `GET /v1/reports/{report_id}` endpoints; report bodies are not persisted to disk.
 - Cache persistence excludes candidate titles and snippets; fetched source bodies are not persisted.
 
 ## Setup
@@ -80,4 +81,4 @@ result = read_txt("input.txt", "/authorized/input-root")
 
 ## Known limitations
 
-The following specified components remain future phases: token-bucket provider rate limiting, circuit breakers, revision-lineage reuse, self-plagiarism suppression, CUSUM anomaly routing, semantic sentence-equivalent matching, PDF retrieval, dense semantic alignment, explicit post-alignment memory scrubbing, scoring, HTML reports, REST APIs, systemd deployment, and benchmark suites.
+The following specified components remain future phases: provider circuit-breakers and secondary-provider deployment configuration, multi-chunk revision persistence, CUSUM anomaly routing, embedding-based sentence-equivalent matching, explicit post-alignment memory scrubbing, HTML reports, authentication/authorization, systemd deployment, and benchmark suites.
