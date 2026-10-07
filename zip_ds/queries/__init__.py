@@ -7,6 +7,7 @@ from zip_ds.queries.providers import (
     ProviderError,
     ProviderManager,
     ProviderRateLimit,
+    ProviderStatus,
 )
 from zip_ds.queries.reuse import RevisionEvidence, reuse_alignment_evidence
 from zip_ds.queries.revision_cache import RevisionCache, RevisionCacheSettings
@@ -23,6 +24,7 @@ __all__ = [
     "ProviderError",
     "ProviderManager",
     "ProviderRateLimit",
+    "ProviderStatus",
     "QueryBudget",
     "RevisionCache",
     "RevisionCacheSettings",

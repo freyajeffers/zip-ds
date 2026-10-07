@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from zip_ds.models import ValidatedModel
 from zip_ds.queries.models import SearchCandidate
 
 
@@ -20,6 +21,14 @@ class ProviderClient(BaseModel):
 
     name: str = Field(min_length=1)
     call: Callable[[str], Awaitable[list[SearchCandidate]]]
+
+
+class ProviderStatus(ValidatedModel):
+    """Observable provider circuit-breaker state without exposing credentials."""
+
+    name: str = Field(min_length=1)
+    available: bool
+    failed_until: float = Field(ge=0.0)
 
 
 @dataclass
@@ -68,3 +77,15 @@ class ProviderManager:
                 raise last_exc
             raise ProviderError("all providers failed") from last_exc
         raise ProviderError("no available providers")
+
+    def statuses(self) -> list[ProviderStatus]:
+        """Return current provider availability for downgraded-coverage reporting."""
+        now = self._clock()
+        return [
+            ProviderStatus(
+                name=state.client.name,
+                available=state.failed_until <= now,
+                failed_until=state.failed_until,
+            )
+            for state in self._states
+        ]

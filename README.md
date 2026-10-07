@@ -11,6 +11,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - ASL, AWL, Yule's K, and function-word metrics; short texts bypass Yule's K.
 - Bounded quoted-shingle query generation.
 - Async provider boundary, provider failover/cooldown management, adaptive query stopping, token-bucket dispatch limiting, revision delta planning, lineage candidate suppression, and SQLite SERP metadata caching with WAL.
+- `ProviderManager.statuses()` exposes redacted circuit-breaker availability for downgraded-coverage reporting without exposing credentials.
 - A SerpAPI-compatible provider adapter parses organic results, maps HTTP 429 to provider failover, and keeps the API key runtime-only.
 - `SerpApiProvider.as_client()` adapts provider searches to `ProviderManager` and `dispatch_queries`, preserving originating chunk IDs and failover behavior.
 - `run_revision_scan_chunks()` supports multi-chunk revision scans, reusing unchanged evidence and batching retrieval only for pending chunks.
