@@ -9,6 +9,7 @@ from zip_ds.queries.providers import (
     ProviderRateLimit,
 )
 from zip_ds.queries.reuse import RevisionEvidence, reuse_alignment_evidence
+from zip_ds.queries.revision_cache import RevisionCache, RevisionCacheSettings
 from zip_ds.queries.revisions import (
     RevisionDelta,
     calculate_revision_delta,
@@ -23,6 +24,8 @@ __all__ = [
     "ProviderManager",
     "ProviderRateLimit",
     "QueryBudget",
+    "RevisionCache",
+    "RevisionCacheSettings",
     "RevisionDelta",
     "RevisionEvidence",
     "SearchCandidate",
