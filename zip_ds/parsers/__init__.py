@@ -1,3 +1,4 @@
+from zip_ds.parsers.document import extract_document
 from zip_ds.parsers.document_extractor import (
     ExtractionResult,
     SecurityError,
@@ -13,6 +14,7 @@ __all__ = [
     "NormalizedText",
     "SecurityError",
     "canonicalize_and_validate",
+    "extract_document",
     "isolate_bibliography",
     "normalize_text",
     "read_docx",

@@ -4,12 +4,12 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 
 ## Verified
 
-- Invariant 2: document extraction now requires an authorized root, uses canonical path confinement, and raises typed `SecurityError` for escapes; sibling-prefix and outside-root tests pass.
+- Invariant 2: `run_scan_from_file` uses extension-dispatched extraction after canonical authorized-root validation; TXT/PDF/DOCX paths are covered, while symlink and malformed-document cases remain limited to extractor tests.
 - Invariant 4: `SerpCache` configures WAL, `busy_timeout=5000`, `synchronous=NORMAL`, and `mmap_size=268435456`; pragma tests pass.
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
 - Invariant 9: current implementation uses standard-library SQLite, hashing, URL parsing, asyncio protocols, and declared libraries for PDF, DOCX, validation, and formatting.
-- Invariant 10: 80 tests cover valid, invalid, boundary, cache, serialization, API, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager, revision, scoring, reporting, and pipeline cases.
+- Invariant 10: 84 tests cover valid, invalid, boundary, cache, serialization, API, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager, revision, scoring, reporting, pipeline, and document-dispatch cases.
 - Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, lexical-alignment outputs, and ephemeral-source outputs.
 
 ## Partial or blocked by missing phases

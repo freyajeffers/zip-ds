@@ -5,6 +5,7 @@ from pydantic import Field
 from zip_ds.alignment import align_lexically, align_semantically
 from zip_ds.chunking import make_chunk
 from zip_ds.models import ValidatedModel
+from zip_ds.parsers import extract_document, isolate_bibliography, normalize_text
 from zip_ds.queries.models import SearchCandidate
 from zip_ds.reporting import AlignmentEvidence, PlagiarismReport, build_report
 from zip_ds.retrieval import EphemeralSource, retrieve_candidates
@@ -75,3 +76,19 @@ async def run_scan_from_candidates(
         raise TypeError("retriever must return a list of EphemeralSource models")
     sources = [ScanSource(url=source.source_url, text=source.text) for source in retrieved]
     return run_scan(document_id, suspicious_text, sources)
+
+
+async def run_scan_from_file(
+    document_id: str,
+    path: str,
+    authorized_root: str,
+    candidates: list[SearchCandidate],
+    retriever: Callable[
+        [list[SearchCandidate], str], Awaitable[list[EphemeralSource]]
+    ] = retrieve_candidates,
+) -> PlagiarismReport:
+    """Extract and sanitize a user document, then run the candidate pipeline."""
+    extracted = extract_document(path, authorized_root)
+    normalized = normalize_text(extracted.text)
+    main_text, _bibliography = isolate_bibliography(normalized.text)
+    return await run_scan_from_candidates(document_id, main_text, candidates, retriever=retriever)
