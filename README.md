@@ -13,6 +13,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Async provider boundary, provider failover/cooldown management, adaptive query stopping, token-bucket dispatch limiting, revision delta planning, lineage candidate suppression, and SQLite SERP metadata caching with WAL.
 - A SerpAPI-compatible provider adapter parses organic results, maps HTTP 429 to provider failover, and keeps the API key runtime-only.
 - `SerpApiProvider.as_client()` adapts provider searches to `ProviderManager` and `dispatch_queries`, preserving originating chunk IDs and failover behavior.
+- Revision evidence reuse is keyed by cryptographic chunk hash; unchanged chunks can reuse prior alignment results without new provider queries.
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
 - Tier 2 semantic alignment uses sentence-level token-set similarity with strict thresholds and character offsets; model-based embeddings are not required.
