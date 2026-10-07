@@ -8,6 +8,7 @@ from zip_ds.models import DocumentChunk, ValidatedModel
 from zip_ds.parsers import extract_document, isolate_bibliography, normalize_text
 from zip_ds.queries.models import SearchCandidate
 from zip_ds.queries.reuse import RevisionEvidence, reuse_alignment_evidence
+from zip_ds.queries.revision_cache import RevisionCache
 from zip_ds.queries.revisions import suppress_lineage_candidates
 from zip_ds.reporting import AlignmentEvidence, PlagiarismReport, build_report
 from zip_ds.retrieval import EphemeralSource, retrieve_candidates
@@ -63,6 +64,7 @@ async def run_revision_scan(
     cached_results: Iterable[RevisionEvidence],
     candidates: list[SearchCandidate],
     *,
+    cache: RevisionCache | None = None,
     excluded_lineage_urls: set[str] | None = None,
     retriever: Callable[
         [list[SearchCandidate], str], Awaitable[list[EphemeralSource]]
@@ -73,6 +75,13 @@ async def run_revision_scan(
     previous = list(previous_chunks)
     previous_hashes = {chunk.chunk_hash for chunk in previous}
     eligible_cache = [result for result in cached_results if result.chunk_hash in previous_hashes]
+    if cache is not None:
+        for chunk_hash in previous_hashes:
+            persisted = cache.get(chunk_hash)
+            if persisted is not None and all(
+                result.chunk_hash != persisted.chunk_hash for result in eligible_cache
+            ):
+                eligible_cache.append(persisted)
     reused, pending = reuse_alignment_evidence([current_chunk], eligible_cache)
     filtered_candidates = suppress_lineage_candidates(candidates, excluded_lineage_urls or set())
     evidence = list(reused)
@@ -81,6 +90,10 @@ async def run_revision_scan(
             document_id, suspicious_text, filtered_candidates, retriever=retriever
         )
         evidence.extend(fresh.evidence)
+        if cache is not None:
+            cache.put(
+                RevisionEvidence(chunk_hash=current_chunk.chunk_hash, evidence=fresh.evidence)
+            )
     return build_report(document_id, current_chunk.token_count, evidence)
 
 

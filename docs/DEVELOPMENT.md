@@ -42,7 +42,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `SerpApiProvider.as_client()` adapts chunk-aware provider calls to the generic `ProviderClient`/`ProviderManager`/`dispatch_queries` path.
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/queries/revision_cache.py`: WAL SQLite persistence for derived revision evidence only; no raw text fields.
-- `run_revision_scan()` is the pipeline entry point for revision delta reuse and lineage candidate suppression; it does not retrieve sources when all current chunks have cached evidence.
+- `run_revision_scan()` is the pipeline entry point for revision delta reuse and lineage candidate suppression; with `RevisionCache`, it persists derived evidence and does not retrieve sources when all current chunks have cached evidence.
 - `zip_ds/api.py`: strict FastAPI scan/report endpoints backed by process-local, non-persistent report storage; optional runtime API-key dependency protects both routes.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.
