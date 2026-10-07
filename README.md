@@ -1,6 +1,6 @@
 # Zero-Ingestion Plagiarism Detection Service (ZIP-DS)
 
-ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkout implements the Phase 1 ingestion foundation and Phase 2 query-generation/cache scaffolding. It does not yet implement external provider clients, retrieval, alignment, scoring, reporting, or a REST/CLI scan pipeline.
+ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkout implements the Phase 1 ingestion foundation, Phase 2 query-generation/cache scaffolding, and the Phase 3 snippet-triage gate. It does not yet implement external provider clients, source retrieval, alignment, scoring, reporting, or a REST/CLI scan pipeline.
 
 ## Current capabilities
 
@@ -11,6 +11,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - ASL, AWL, Yule's K, and function-word metrics; short texts bypass Yule's K.
 - Bounded quoted-shingle query generation.
 - Async provider boundary, adaptive query stopping, and SQLite SERP metadata caching with WAL.
+- Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Cache persistence excludes candidate titles and snippets; fetched source bodies are not implemented or persisted.
 
 ## Setup
