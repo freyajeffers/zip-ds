@@ -36,6 +36,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/chunking.py`: deterministic SHA-256 chunk identity and offsets.
 - `zip_ds/stylometry/analyzer.py`: ASL, AWL, Yule's K, function-word ratio, and short-text routing.
 - `zip_ds/retrieval/triage.py`: three-word-shingle Jaccard gate before candidate retrieval.
+- `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 
 ## Verification gates from the specification
 

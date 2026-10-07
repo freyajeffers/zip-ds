@@ -9,16 +9,16 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
 - Invariant 9: current implementation uses standard-library SQLite, hashing, URL parsing, asyncio protocols, and declared libraries for PDF, DOCX, validation, and formatting.
-- Invariant 10: 51 tests cover valid, invalid, boundary, cache, serialization, API, and Phase 3 triage cases.
-- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, and Phase 3 snippet-triage inputs.
+- Invariant 10: 54 tests cover valid, invalid, boundary, cache, serialization, API, triage, and lexical-alignment cases.
+- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, and lexical-alignment outputs.
 
 ## Partial or blocked by missing phases
 
 - Invariant 1: the SERP cache no longer persists candidate titles or snippets, but it does persist query strings and candidate URLs. Query strings are derived from user input; URLs are metadata, not fetched source text. Any future retrieval layer must never persist fetched HTML, PDF, or plaintext.
 - Invariant 3: query-count budgeting exists, but a token-bucket limiter and concurrent provider backoff/circuit breaker are not implemented yet.
 - Invariant 5: revision lineage, unchanged-chunk reuse, and self-plagiarism exclusion are not implemented yet.
-- Invariant 6: short-text Yule's K bypass and six-token micro-shingles exist; Phase 3 now has three-word-shingle snippet triage; CUSUM, anomaly routing, and the seven-word match suppression rule are not implemented yet.
-- Invariant 11: the current Phase 2 and Phase 3 boundaries are validated, but future retrieval, alignment, reporting, and REST boundaries do not exist yet and therefore cannot be validated.
+- Invariant 6: short-text Yule's K bypass and six-token micro-shingles exist; Phase 3 has three-word-shingle snippet triage and seven-word lexical-match suppression; CUSUM, anomaly routing, and semantic sentence-equivalent suppression are not implemented yet.
+- Invariant 11: the current Phase 2 and Phase 3 triage/lexical-alignment boundaries are validated, but future retrieval, semantic alignment, reporting, and REST boundaries do not exist yet and therefore cannot be validated.
 
 ## Quality gates
 
