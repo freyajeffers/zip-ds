@@ -1,4 +1,5 @@
 import secrets
+from typing import Literal
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, Header, HTTPException
@@ -6,7 +7,7 @@ from pydantic import Field
 
 from zip_ds.models import ValidatedModel
 from zip_ds.pipeline import ScanSource, run_scan
-from zip_ds.queries.providers import ProviderManager
+from zip_ds.queries.providers import ProviderManager, ProviderStatus
 from zip_ds.reporting import PlagiarismReport
 
 
@@ -14,6 +15,11 @@ class ScanRequest(ValidatedModel):
     document_id: str = Field(min_length=1)
     suspicious_text: str = Field(min_length=1)
     sources: list[ScanSource] = Field(default_factory=list)
+
+
+class HealthResponse(ValidatedModel):
+    status: Literal["ok"]
+    provider_statuses: list[ProviderStatus] = Field(default_factory=list)
 
 
 class ReportStore:
@@ -39,6 +45,11 @@ def create_app(
     app = FastAPI(title="ZIP-DS", version="0.1.0")
     store = ReportStore()
 
+    @app.get("/health", response_model=HealthResponse)
+    def health() -> HealthResponse:
+        statuses = [] if provider_manager is None else provider_manager.statuses()
+        return HealthResponse(status="ok", provider_statuses=statuses)
+
     def authorize(x_api_key: str | None = Header(default=None)) -> None:
         if api_key is not None and (
             x_api_key is None or not secrets.compare_digest(x_api_key, api_key)
@@ -62,4 +73,4 @@ def create_app(
     return app
 
 
-__all__ = ["ReportStore", "ScanRequest", "create_app"]
+__all__ = ["HealthResponse", "ReportStore", "ScanRequest", "create_app"]

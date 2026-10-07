@@ -1,4 +1,4 @@
-from zip_ds.api import ScanRequest, create_app
+from zip_ds.api import HealthResponse, ScanRequest, create_app
 from zip_ds.models import DocumentChunk, SearchCandidate, SourceType, StyleScores
 from zip_ds.pipeline import (
     ScanSource,
@@ -11,6 +11,7 @@ from zip_ds.pipeline import (
 
 __all__ = [
     "DocumentChunk",
+    "HealthResponse",
     "ScanRequest",
     "ScanSource",
     "SearchCandidate",

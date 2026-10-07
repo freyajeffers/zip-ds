@@ -9,8 +9,8 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
 - Invariant 9: current implementation uses standard-library SQLite, hashing, URL parsing, asyncio protocols, and declared libraries for PDF, DOCX, validation, and formatting.
-- Invariant 10: 104 tests cover valid, invalid, boundary, cache, serialization, API/authentication/provider-status, memory scrubbing, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager/status, SerpAPI parsing/dispatch, single- and multi-chunk revision reuse/cache/orchestration, scoring, reporting, pipeline, and document-dispatch cases.
-- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, lexical-alignment outputs, and ephemeral-source outputs.
+- Invariant 10: 105 tests cover valid, invalid, boundary, cache, serialization, API/authentication/provider-status/health, memory scrubbing, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager/status, SerpAPI parsing/dispatch, single- and multi-chunk revision reuse/cache/orchestration, scoring, reporting, pipeline, and document-dispatch cases.
+- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, lexical-alignment outputs, ephemeral-source outputs, and strict REST health/scan/report responses. `/health` emits no secret material.
 
 ## Partial or blocked by missing phases
 

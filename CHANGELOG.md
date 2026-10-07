@@ -19,7 +19,7 @@ All notable changes to this project are recorded here.
 - Candidate retrieval is integrated into the bounded scan pipeline through the ephemeral scraper.
 - SerpAPI adapter is wired through `ProviderManager` into cached, rate-limited query dispatch.
 - Multi-chunk revision orchestration now reuses unchanged evidence and batches retrieval/alignment for pending chunks.
-- REST reports now optionally include typed provider availability/cooldown status snapshots for downgraded-coverage visibility.
+- Added a credential-free `/health` endpoint exposing service liveness and configured provider status snapshots.
 - Strict FastAPI REST endpoints expose scan submission and process-local report lookup without persistent report storage; optional runtime API-key authentication protects both routes.
 - Authorized-root TXT/PDF/DOCX extraction and document-to-report pipeline integration.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
@@ -41,7 +41,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 104 tests passed with 91% total coverage.
+- Current test suite: 105 tests passed with 91% total coverage.
 
 ### Not yet implemented
 

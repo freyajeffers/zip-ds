@@ -43,7 +43,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/queries/revision_cache.py`: WAL SQLite persistence for derived revision evidence only; no raw text fields.
 - `run_revision_scan_chunks()` extends revision orchestration across explicit chunk lists, reusing cached chunks and batching pending candidate retrieval.
-- `PlagiarismReport.provider_statuses` and `create_app(provider_manager=...)` expose typed provider status snapshots in REST responses without credentials.
+- `GET /health` returns a strict liveness contract with provider status snapshots and does not require the configured scan API key.
 - `zip_ds/retrieval/scraper.py`: bounded response bytes use mutable buffers and `scrub_buffer()` overwrites them after extraction; immutable decoded text cannot be deterministically zeroed by Python.
 - `zip_ds/api.py`: strict FastAPI scan/report endpoints backed by process-local, non-persistent report storage; optional runtime API-key dependency protects both routes.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
