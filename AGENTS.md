@@ -26,6 +26,9 @@ Invariant 10: Tests Before Implementation
 For every new behavior, boundary, bug fix, and phase component, write exhaustive unit and contract tests first. Run the new tests to establish the failing or missing behavior, implement only what they require, then run the full quality gate before committing. Include valid, invalid, boundary, failure, serialization, and integration-path cases where applicable.
 Invariant 11: Full Boundary Validation
 Validate every public input before processing and every public output before returning or persisting it. Validation must cover types, structure, required fields, ranges, lengths, encodings, paths, URLs, enums, offsets, hashes, serialized payloads, provider responses, and error states. Fail closed with typed validation errors; never silently coerce malformed or incomplete data.
+
+Invariant 12: Tooling Quality Gates
+All commits touching source code must pass the project's static and test gates locally before pushing: `uv run ruff check . --fix` (or `uv run ruff check .`), `uv run black --check .`, `uv run mypy zip_ds`, and `uv run pytest -q`. CI must run the same commands on PRs and block merges until they pass. Document any allowed exceptions in CONTRIBUTING.md and record approvals in PR descriptions.
 . Engineering Discipline & Prohibitions
 No Code Bloat or Premature Monoliths: Avoid giant single-file implementations. Structure each phase into focused modules under 250 lines with explicit responsibilities (e.g., parsers/, stylometry/, queries/, retrieval/, alignment/, reporting/).
 Editor & File Cleanliness: Ensure git ignores and service boundaries actively filter out transient editor artifacts (Vim swap files ._.swp, persistent undo files ._.un~, backup files *~, and temporary files *.tmp).
