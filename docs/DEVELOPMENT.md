@@ -38,6 +38,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/retrieval/triage.py`: three-word-shingle Jaccard gate before candidate retrieval.
 - `zip_ds/queries/limiter.py`: token-bucket rate limiting for uncached provider dispatch.
 - `zip_ds/queries/providers.py`: provider manager with rate-limit cooldown and secondary-provider failover.
+- `zip_ds/queries/serpapi.py`: runtime-key SerpAPI-compatible provider adapter and typed organic-result parsing.
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.

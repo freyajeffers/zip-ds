@@ -13,6 +13,7 @@ from zip_ds.queries.revisions import (
     calculate_revision_delta,
     suppress_lineage_candidates,
 )
+from zip_ds.queries.serpapi import SerpApiProvider, SerpApiSettings, parse_serpapi_response
 from zip_ds.queries.splitter import split_chunk_for_queries
 
 __all__ = [
@@ -23,6 +24,8 @@ __all__ = [
     "QueryBudget",
     "RevisionDelta",
     "SearchCandidate",
+    "SerpApiProvider",
+    "SerpApiSettings",
     "SerpCache",
     "SourceType",
     "TokenBucket",
@@ -30,6 +33,7 @@ __all__ = [
     "calculate_revision_delta",
     "dispatch_queries",
     "generate_queries",
+    "parse_serpapi_response",
     "query_budget",
     "shingles",
     "split_chunk_for_queries",

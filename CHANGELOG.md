@@ -17,6 +17,7 @@ All notable changes to this project are recorded here.
 - Sentence-level semantic-alignment approximation with minimum-length suppression and strict confidence thresholds.
 - Evidence-weighted scoring and structured Pydantic plagiarism reports with coverage/confidence fields.
 - Candidate retrieval is integrated into the bounded scan pipeline through the ephemeral scraper.
+- SerpAPI-compatible provider adapter with typed response parsing and HTTP 429 failover signaling.
 - Authorized-root TXT/PDF/DOCX extraction and document-to-report pipeline integration.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
 - Typed `SecurityError` is raised for paths escaping an authorized extraction root.
@@ -37,7 +38,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 84 tests passed with 91% total coverage.
+- Current test suite: 87 tests passed with 89% total coverage.
 
 ### Not yet implemented
 
