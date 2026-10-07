@@ -29,6 +29,9 @@ Validate every public input before processing and every public output before ret
 
 Invariant 12: Tooling Quality Gates
 All commits touching source code must pass the project's static and test gates locally before pushing: `uv run ruff check . --fix` (or `uv run ruff check .`), `uv run black --check .`, `uv run mypy zip_ds`, and `uv run pytest -q`. CI must run the same commands on PRs and block merges until they pass. Document any allowed exceptions in CONTRIBUTING.md and record approvals in PR descriptions.
+
+Invariant 13: Atomic Commits and Just-in-Time Documentation
+Maintain an atomic commit history by grouping logically related changes—including source code, tests, and documentation—into single, cohesive commits. Document new modules, configurations, and public APIs as they are implemented, ensuring that `docs/` and `AGENTS.md` reflect the current state of the repository. Never batch unrelated features or fixes into a single commit; never commit code without accompanying test and documentation updates.
 . Engineering Discipline & Prohibitions
 No Code Bloat or Premature Monoliths: Avoid giant single-file implementations. Structure each phase into focused modules under 250 lines with explicit responsibilities (e.g., parsers/, stylometry/, queries/, retrieval/, alignment/, reporting/).
 Editor & File Cleanliness: Ensure git ignores and service boundaries actively filter out transient editor artifacts (Vim swap files ._.swp, persistent undo files ._.un~, backup files *~, and temporary files *.tmp).
