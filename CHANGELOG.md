@@ -26,7 +26,8 @@ All notable changes to this project are recorded here.
 - README now describes only implemented behavior and exact local quality-gate commands.
 - CI runs the same quality gates for pushes to `main` and pull requests.
 - Removed the stale console-script entry because no CLI module exists.
-- Updated development documentation and ignored editor/temporary artifacts.
+- Added `docs/ORIGINAL_DOCUMENTS.md` to distinguish retained source specifications from current implementation documentation.
+- Retained the original project-creation and development documents under `docs/` as design references.
 
 ### Verification
 

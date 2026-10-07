@@ -65,8 +65,9 @@ result = read_txt("input.txt", "/authorized/input-root")
 - `zip_ds/stylometry/`: intrinsic metrics.
 - `zip_ds/queries/`: shingle generation, chunk splitting, budget, dispatch, and cache.
 - `tests/`: unit, boundary, serialization, public-API, and cache tests.
-- `docs/DEVELOPMENT.md`: dependency order and development commands.
+- `docs/DEVELOPMENT.md`: dependency order and current development commands.
 - `docs/INVARIANT_AUDIT.md`: current invariant audit and known phase gaps.
+- `docs/ORIGINAL_DOCUMENTS.md`: index explaining the retained original project specifications.
 - `AGENTS.md`: mandatory project invariants.
 
 ## Known limitations
