@@ -4,9 +4,11 @@ from pydantic import Field
 
 from zip_ds.alignment import align_lexically, align_semantically
 from zip_ds.chunking import make_chunk
-from zip_ds.models import ValidatedModel
+from zip_ds.models import DocumentChunk, ValidatedModel
 from zip_ds.parsers import extract_document, isolate_bibliography, normalize_text
 from zip_ds.queries.models import SearchCandidate
+from zip_ds.queries.reuse import RevisionEvidence, reuse_alignment_evidence
+from zip_ds.queries.revisions import suppress_lineage_candidates
 from zip_ds.reporting import AlignmentEvidence, PlagiarismReport, build_report
 from zip_ds.retrieval import EphemeralSource, retrieve_candidates
 
@@ -52,6 +54,34 @@ def run_scan(
             for match in matches
         )
     return build_report(document_id, chunk.token_count, evidence)
+
+
+async def run_revision_scan(
+    document_id: str,
+    suspicious_text: str,
+    previous_chunks: Iterable[DocumentChunk],
+    cached_results: Iterable[RevisionEvidence],
+    candidates: list[SearchCandidate],
+    *,
+    excluded_lineage_urls: set[str] | None = None,
+    retriever: Callable[
+        [list[SearchCandidate], str], Awaitable[list[EphemeralSource]]
+    ] = retrieve_candidates,
+) -> PlagiarismReport:
+    """Scan a revision while reusing unchanged evidence and excluding prior lineage URLs."""
+    current_chunk = make_chunk(suspicious_text)
+    previous = list(previous_chunks)
+    previous_hashes = {chunk.chunk_hash for chunk in previous}
+    eligible_cache = [result for result in cached_results if result.chunk_hash in previous_hashes]
+    reused, pending = reuse_alignment_evidence([current_chunk], eligible_cache)
+    filtered_candidates = suppress_lineage_candidates(candidates, excluded_lineage_urls or set())
+    evidence = list(reused)
+    if pending:
+        fresh = await run_scan_from_candidates(
+            document_id, suspicious_text, filtered_candidates, retriever=retriever
+        )
+        evidence.extend(fresh.evidence)
+    return build_report(document_id, current_chunk.token_count, evidence)
 
 
 async def run_scan_from_candidates(

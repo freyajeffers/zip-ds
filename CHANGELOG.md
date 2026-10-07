@@ -18,7 +18,7 @@ All notable changes to this project are recorded here.
 - Evidence-weighted scoring and structured Pydantic plagiarism reports with coverage/confidence fields.
 - Candidate retrieval is integrated into the bounded scan pipeline through the ephemeral scraper.
 - SerpAPI adapter is wired through `ProviderManager` into cached, rate-limited query dispatch.
-- WAL SQLite cache for derived revision alignment evidence; stored payloads contain hashes and scores/URLs only, never raw text.
+- Revision-lineage scan orchestration reuses unchanged evidence, suppresses prior-lineage candidates, and retrieves only when new work is required.
 - Authorized-root TXT/PDF/DOCX extraction and document-to-report pipeline integration.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
 - Typed `SecurityError` is raised for paths escaping an authorized extraction root.
@@ -39,7 +39,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 92 tests passed with 90% total coverage.
+- Current test suite: 94 tests passed with 90% total coverage.
 
 ### Not yet implemented
 
