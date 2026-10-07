@@ -1,4 +1,4 @@
-import asyncio
+import time
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 
@@ -44,7 +44,7 @@ class ProviderManager:
     ) -> None:
         if not providers:
             raise ValueError("providers list must be non-empty")
-        self._clock = clock or asyncio.get_event_loop().time
+        self._clock = clock or time.monotonic
         self._states = [ProviderState(client=p) for p in providers]
         self._cooldown = float(cooldown)
 

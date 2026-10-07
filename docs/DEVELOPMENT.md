@@ -39,6 +39,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/queries/limiter.py`: token-bucket rate limiting for uncached provider dispatch.
 - `zip_ds/queries/providers.py`: provider manager with rate-limit cooldown and secondary-provider failover.
 - `zip_ds/queries/serpapi.py`: runtime-key SerpAPI-compatible provider adapter and typed organic-result parsing.
+- `SerpApiProvider.as_client()` adapts chunk-aware provider calls to the generic `ProviderClient`/`ProviderManager`/`dispatch_queries` path.
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.

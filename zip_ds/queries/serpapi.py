@@ -7,7 +7,7 @@ from urllib.request import Request, urlopen
 from pydantic import ConfigDict, Field, field_validator
 
 from zip_ds.models import SearchCandidate, SourceType, ValidatedModel
-from zip_ds.queries.providers import ProviderError, ProviderRateLimit
+from zip_ds.queries.providers import ProviderClient, ProviderError, ProviderRateLimit
 
 
 class SerpApiSettings(ValidatedModel):
@@ -101,3 +101,12 @@ class SerpApiProvider:
         if status >= 400:
             raise ProviderError(f"provider returned HTTP {status}")
         return parse_serpapi_response(body.decode("utf-8"), query, chunk_id)
+
+    def as_client(self, chunk_id: str) -> ProviderClient:
+        if not isinstance(chunk_id, str) or not chunk_id:
+            raise ValueError("chunk_id must be non-empty")
+
+        async def call(query: str) -> list[SearchCandidate]:
+            return await self.search(query, chunk_id)
+
+        return ProviderClient(name="serpapi", call=call)
