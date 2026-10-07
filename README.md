@@ -16,6 +16,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Tier 2 semantic alignment uses sentence-level token-set similarity with strict thresholds and character offsets; model-based embeddings are not required.
 - Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
 - Structured scoring and Pydantic reporting contracts calculate evidence-weighted coverage and confidence while suppressing matches shorter than seven words.
+- `run_scan()` integrates bounded in-memory alignment and structured reporting over already retrieved sources.
 - Cache persistence excludes candidate titles and snippets; fetched source bodies are not persisted.
 
 ## Setup

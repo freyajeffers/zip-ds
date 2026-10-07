@@ -14,7 +14,9 @@ All notable changes to this project are recorded here.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
 - Token-bucket query limiting is applied to uncached provider dispatches.
 - Provider manager failover and cooldown handling for rate-limited providers.
+- Sentence-level semantic-alignment approximation with minimum-length suppression and strict confidence thresholds.
 - Evidence-weighted scoring and structured Pydantic plagiarism reports with coverage/confidence fields.
+- Bounded scan pipeline integrates source alignment, scoring, and structured reporting.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
 - Typed `SecurityError` is raised for paths escaping an authorized extraction root.
 - Explicit package APIs through `__all__` exports.
@@ -34,7 +36,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 76 tests passed with 91% total coverage.
+- Current test suite: 78 tests passed with 91% total coverage.
 
 ### Not yet implemented
 
