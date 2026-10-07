@@ -32,6 +32,12 @@ All commits touching source code must pass the project's static and test gates l
 
 Invariant 13: Atomic Commits and Just-in-Time Documentation
 Maintain an atomic commit history by grouping logically related changes—including source code, tests, and documentation—into single, cohesive commits. Document new modules, configurations, and public APIs as they are implemented, ensuring that `docs/` and `AGENTS.md` reflect the current state of the repository. Never batch unrelated features or fixes into a single commit; never commit code without accompanying test and documentation updates.
+Invariant 14: README and Changelog Currency
+Keep `README.md` accurate for the current checkout: supported functionality, setup, exact commands, public APIs, and known limitations. Keep root `CHANGELOG.md` updated with each user-visible or developer-relevant change, grouped by release or unreleased work. Never document planned or specified functionality as implemented.
+Invariant 15: Documentation Currency
+Keep all project documentation synchronized with the implementation, tests, configuration, and invariant audit. Update the relevant README, changelog, development guide, runbook, technical specification, or audit document in the same logically grouped change as the code it describes. Remove stale commands, claims, and examples rather than preserving them for historical context.
+Invariant 16: Tests Before Code Updates
+When an existing behavior or contract must change, update or add the affected tests first, run them to demonstrate the expected failure or gap, then update the implementation. Do not change production code first and retrofit tests afterward; include regression coverage for every changed behavior.
 . Engineering Discipline & Prohibitions
 No Code Bloat or Premature Monoliths: Avoid giant single-file implementations. Structure each phase into focused modules under 250 lines with explicit responsibilities (e.g., parsers/, stylometry/, queries/, retrieval/, alignment/, reporting/).
 Editor & File Cleanliness: Ensure git ignores and service boundaries actively filter out transient editor artifacts (Vim swap files ._.swp, persistent undo files ._.un~, backup files *~, and temporary files *.tmp).
