@@ -4,6 +4,7 @@ from uuid import UUID, uuid4
 from pydantic import Field
 
 from zip_ds.models import ValidatedModel
+from zip_ds.queries.providers import ProviderStatus
 from zip_ds.reporting.scoring import AlignmentEvidence, ScoreResult, calculate_score
 
 
@@ -12,6 +13,7 @@ class PlagiarismReport(ValidatedModel):
     document_id: str = Field(min_length=1)
     score: ScoreResult
     evidence: list[AlignmentEvidence] = Field(default_factory=list)
+    provider_statuses: list[ProviderStatus] = Field(default_factory=list)
 
 
 def build_report(
