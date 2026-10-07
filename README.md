@@ -10,7 +10,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Document chunk hashing and query-sized chunk splitting.
 - ASL, AWL, Yule's K, and function-word metrics; short texts bypass Yule's K.
 - Bounded quoted-shingle query generation.
-- Async provider boundary, adaptive query stopping, token-bucket dispatch limiting, and SQLite SERP metadata caching with WAL.
+- Async provider boundary, provider failover/cooldown management, adaptive query stopping, token-bucket dispatch limiting, and SQLite SERP metadata caching with WAL.
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
 - Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
