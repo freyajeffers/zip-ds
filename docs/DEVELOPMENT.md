@@ -37,6 +37,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/stylometry/analyzer.py`: ASL, AWL, Yule's K, function-word ratio, and short-text routing.
 - `zip_ds/retrieval/triage.py`: three-word-shingle Jaccard gate before candidate retrieval.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
+- `zip_ds/retrieval/scraper.py`: bounded in-memory HTML extraction and failure-tolerant async retrieval.
 
 ## Verification gates from the specification
 

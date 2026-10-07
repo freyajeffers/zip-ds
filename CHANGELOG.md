@@ -12,6 +12,7 @@ All notable changes to this project are recorded here.
 - Phase 2 bounded quoted-shingle query generation, query budgets, adaptive stopping, and SQLite WAL SERP metadata caching.
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
+- Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
 - Typed `SecurityError` is raised for paths escaping an authorized extraction root.
 - Explicit package APIs through `__all__` exports.
@@ -30,7 +31,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 54 tests passed with 92% total coverage.
+- Current test suite: 61 tests passed with 91% total coverage.
 
 ### Not yet implemented
 

@@ -9,12 +9,12 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
 - Invariant 9: current implementation uses standard-library SQLite, hashing, URL parsing, asyncio protocols, and declared libraries for PDF, DOCX, validation, and formatting.
-- Invariant 10: 54 tests cover valid, invalid, boundary, cache, serialization, API, triage, and lexical-alignment cases.
-- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, and lexical-alignment outputs.
+- Invariant 10: 61 tests cover valid, invalid, boundary, cache, serialization, API, triage, lexical-alignment, and scraper cases.
+- Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, lexical-alignment outputs, and ephemeral-source outputs.
 
 ## Partial or blocked by missing phases
 
-- Invariant 1: the SERP cache no longer persists candidate titles or snippets, but it does persist query strings and candidate URLs. Query strings are derived from user input; URLs are metadata, not fetched source text. Any future retrieval layer must never persist fetched HTML, PDF, or plaintext.
+- Invariant 1: HTML retrieval uses bounded in-memory buffers and persists no fetched source text; explicit post-alignment scrubbing and PDF retrieval remain incomplete. The SERP cache persists only query strings and candidate URLs, not titles, snippets, or source bodies.
 - Invariant 3: query-count budgeting exists, but a token-bucket limiter and concurrent provider backoff/circuit breaker are not implemented yet.
 - Invariant 5: revision lineage, unchanged-chunk reuse, and self-plagiarism exclusion are not implemented yet.
 - Invariant 6: short-text Yule's K bypass and six-token micro-shingles exist; Phase 3 has three-word-shingle snippet triage and seven-word lexical-match suppression; CUSUM, anomaly routing, and semantic sentence-equivalent suppression are not implemented yet.
@@ -25,7 +25,7 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - `uv run ruff check .` — passed
 - `uv run black --check .` — passed
 - `uv run mypy zip_ds` — passed
-- `uv run pytest -q --cov=zip_ds --cov-report=term-missing` — 46 passed, 92% total coverage
+- `uv run pytest -q --cov=zip_ds --cov-report=term-missing` — 61 passed, 91% total coverage
 - `.github/workflows/quality.yml` runs the four quality gates on pushes to `main` and pull requests.
 
 ## Documentation and configuration findings

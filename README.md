@@ -13,7 +13,8 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - Async provider boundary, adaptive query stopping, and SQLite SERP metadata caching with WAL.
 - Phase 3 snippet triage computes three-word-shingle Jaccard similarity and rejects low-overlap candidates before retrieval.
 - Tier 1 lexical alignment finds exact contiguous matches and suppresses matches shorter than seven words.
-- Cache persistence excludes candidate titles and snippets; fetched source bodies are not implemented or persisted.
+- Bounded asynchronous HTML retrieval stays in memory, strips script/style/navigation content, and skips network failures without aborting the scan.
+- Cache persistence excludes candidate titles and snippets; fetched source bodies are not persisted.
 
 ## Setup
 
@@ -70,4 +71,4 @@ result = read_txt("input.txt", "/authorized/input-root")
 
 ## Known limitations
 
-The following specified components remain future phases: token-bucket provider rate limiting, circuit breakers, revision-lineage reuse, self-plagiarism suppression, CUSUM anomaly routing, semantic sentence-equivalent matching, external retrieval, dense semantic alignment, scoring, HTML reports, REST APIs, systemd deployment, and benchmark suites.
+The following specified components remain future phases: token-bucket provider rate limiting, circuit breakers, revision-lineage reuse, self-plagiarism suppression, CUSUM anomaly routing, semantic sentence-equivalent matching, PDF retrieval, dense semantic alignment, explicit post-alignment memory scrubbing, scoring, HTML reports, REST APIs, systemd deployment, and benchmark suites.
