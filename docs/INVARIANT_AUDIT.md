@@ -9,7 +9,7 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
 - Invariant 9: current implementation uses standard-library SQLite, hashing, URL parsing, asyncio protocols, and declared libraries for PDF, DOCX, validation, and formatting.
-- Invariant 10: 73 tests cover valid, invalid, boundary, cache, serialization, API, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager, and revision cases.
+- Invariant 10: 76 tests cover valid, invalid, boundary, cache, serialization, API, triage, lexical-alignment, semantic-alignment, scraper, limiter, provider-manager, revision, scoring, and reporting cases.
 - Invariant 11: current public boundaries validate paths, text, hashes, offsets, URLs, enums, scores, budgets, provider results, serialized cache payloads, snippet-triage inputs, lexical-alignment outputs, and ephemeral-source outputs.
 
 ## Partial or blocked by missing phases
@@ -18,7 +18,7 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - Invariant 3: uncached query dispatch routes through a bounded token bucket, and `ProviderManager` supports rate-limit cooldown/failover; concrete external providers and downgraded-coverage reporting are not implemented yet.
 - Invariant 5: `calculate_revision_delta` identifies unchanged chunk hashes for result reuse and `suppress_lineage_candidates` removes prior-draft URLs; persistent alignment-result storage and full lineage orchestration are not implemented yet.
 - Invariant 6: short-text Yule's K bypass and six-token micro-shingles exist; Phase 3 has three-word-shingle snippet triage, seven-word lexical-match suppression, and sentence-level semantic approximation; CUSUM, anomaly routing, and embedding-based sentence equivalence are not implemented yet.
-- Invariant 11: current parser, query, retrieval, and alignment boundaries are validated; reporting and REST boundaries do not exist yet and therefore cannot be validated.
+- Invariant 11: current parser, query, retrieval, alignment, scoring, and report boundaries are validated; REST boundaries do not exist yet and therefore cannot be validated.
 
 ## Quality gates
 

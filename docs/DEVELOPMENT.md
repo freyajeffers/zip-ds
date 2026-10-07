@@ -41,6 +41,8 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.
+- `zip_ds/reporting/scoring.py`: evidence-weighted coverage and confidence calculation with seven-word suppression.
+- `zip_ds/reporting/report.py`: strict structured plagiarism report contract.
 - `zip_ds/retrieval/scraper.py`: bounded in-memory HTML extraction and failure-tolerant async retrieval.
 
 ## Verification gates from the specification
