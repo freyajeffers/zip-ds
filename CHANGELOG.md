@@ -45,4 +45,4 @@ All notable changes to this project are recorded here.
 
 ### Not yet implemented
 
-- External provider clients, secondary-provider circuit-breaker failover, PDF retrieval, semantic alignment, scoring, reports, REST APIs, systemd deployment, revision lineage reuse, CUSUM routing, and benchmark suites.
+- Secondary-provider deployment configuration, CUSUM routing, embedding-based sentence equivalence, HTML reports, systemd deployment, and benchmark suites.

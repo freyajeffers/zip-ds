@@ -25,7 +25,7 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - `uv run ruff check .` — passed
 - `uv run black --check .` — passed
 - `uv run mypy zip_ds` — passed
-- `uv run pytest -q --cov=zip_ds --cov-report=term-missing` — 61 passed, 91% total coverage
+- `uv run pytest -q --cov=zip_ds --cov-report=term-missing` — 105 passed, 91% total coverage
 - `.github/workflows/quality.yml` runs the four quality gates on pushes to `main` and pull requests.
 
 ## Documentation and configuration findings

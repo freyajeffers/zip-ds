@@ -82,4 +82,4 @@ result = read_txt("input.txt", "/authorized/input-root")
 
 ## Known limitations
 
-The following specified components remain future phases: provider circuit-breakers and secondary-provider deployment configuration, multi-chunk revision persistence, CUSUM anomaly routing, embedding-based sentence-equivalent matching, explicit post-alignment memory scrubbing, HTML reports, authentication/authorization, systemd deployment, and benchmark suites.
+The following specified components remain future phases: secondary-provider deployment configuration, CUSUM anomaly routing, embedding-based sentence-equivalent matching, HTML reports, systemd deployment, and benchmark suites. Runtime API-key authentication, provider cooldown/failover, multi-chunk revision persistence, and bounded retrieval-buffer scrubbing are implemented; key provisioning and rotation remain deployment concerns.
