@@ -1,11 +1,13 @@
-from collections.abc import Iterable
+from collections.abc import Awaitable, Callable, Iterable
 
 from pydantic import Field
 
 from zip_ds.alignment import align_lexically, align_semantically
 from zip_ds.chunking import make_chunk
 from zip_ds.models import ValidatedModel
+from zip_ds.queries.models import SearchCandidate
 from zip_ds.reporting import AlignmentEvidence, PlagiarismReport, build_report
+from zip_ds.retrieval import EphemeralSource, retrieve_candidates
 
 
 class ScanSource(ValidatedModel):
@@ -49,3 +51,27 @@ def run_scan(
             for match in matches
         )
     return build_report(document_id, chunk.token_count, evidence)
+
+
+async def run_scan_from_candidates(
+    document_id: str,
+    suspicious_text: str,
+    candidates: list[SearchCandidate],
+    retriever: Callable[
+        [list[SearchCandidate], str], Awaitable[list[EphemeralSource]]
+    ] = retrieve_candidates,
+) -> PlagiarismReport:
+    """Retrieve candidate pages ephemerally, then run alignment and reporting."""
+    if not isinstance(candidates, list) or not all(
+        isinstance(candidate, SearchCandidate) for candidate in candidates
+    ):
+        raise TypeError("candidates must be a list of SearchCandidate models")
+    if not callable(retriever):
+        raise TypeError("retriever must be callable")
+    retrieved = await retriever(candidates, suspicious_text)
+    if not isinstance(retrieved, list) or not all(
+        isinstance(source, EphemeralSource) for source in retrieved
+    ):
+        raise TypeError("retriever must return a list of EphemeralSource models")
+    sources = [ScanSource(url=source.source_url, text=source.text) for source in retrieved]
+    return run_scan(document_id, suspicious_text, sources)

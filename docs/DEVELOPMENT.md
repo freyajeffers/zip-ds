@@ -43,7 +43,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.
 - `zip_ds/reporting/scoring.py`: evidence-weighted coverage and confidence calculation with seven-word suppression.
 - `zip_ds/reporting/report.py`: strict structured plagiarism report contract.
-- `zip_ds/pipeline.py`: bounded in-memory scan orchestration from suspicious text and retrieved sources to a typed report.
+- `zip_ds/pipeline.py`: bounded in-memory scan orchestration from suspicious text and retrieved sources to a typed report, plus candidate retrieval integration.
 - `zip_ds/retrieval/scraper.py`: bounded in-memory HTML extraction and failure-tolerant async retrieval.
 
 ## Verification gates from the specification
