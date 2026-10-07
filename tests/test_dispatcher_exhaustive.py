@@ -88,5 +88,14 @@ def test_cache_round_trip_preserves_enum_and_all_fields(tmp_path):
     cache = SerpCache(tmp_path / "serp.db")
     original = make_candidate("query", score=0.42)
     cache.put("query", [original])
-    assert cache.get("query") == [original]
+    cached = cache.get("query")
+    assert cached is not None
+    assert cached[0].url == original.url
+    assert cached[0].snippet == ""
+    assert cached[0].title == ""
+    raw_payload = cache._connection.execute("SELECT payload FROM serp_cache").fetchone()[0]
+    import json
+
+    assert "snippet" not in json.loads(raw_payload)[0]
+    assert "title" not in json.loads(raw_payload)[0]
     cache.close()

@@ -97,7 +97,12 @@ class SerpCache:
             return None
         raw_candidates = json.loads(row[0])
         candidates = [
-            SearchCandidate(**{**item, "source_type": SourceType(item["source_type"])})
+            SearchCandidate(
+                **{
+                    **{k: v for k, v in item.items() if k not in {"title", "snippet"}},
+                    "source_type": SourceType(item["source_type"]),
+                }
+            )
             for item in raw_candidates
         ]
         entry = SerpCacheEntry(
@@ -126,7 +131,12 @@ class SerpCache:
             candidates=candidates,
             created_at=time.time(),
         )
-        payload = json.dumps([item.model_dump(mode="json") for item in entry.candidates])
+        payload = json.dumps(
+            [
+                item.model_dump(exclude={"title", "snippet"}, mode="json")
+                for item in entry.candidates
+            ]
+        )
         self._connection.execute(
             "INSERT OR REPLACE INTO serp_cache VALUES (?, ?, ?, ?)",
             (entry.query_hash, entry.query, payload, entry.created_at),

@@ -54,8 +54,8 @@ class SourceType(str, Enum):
 class SearchCandidate(ValidatedModel):
     url: str
     source_type: SourceType
-    title: str = Field(min_length=1)
-    snippet: str = Field(min_length=1)
+    title: str = Field(default="", min_length=0)
+    snippet: str = Field(default="", min_length=0)
     rank_position: int = Field(ge=1)
     matched_query: str = Field(min_length=1)
     originating_chunk_id: str = Field(min_length=1)
