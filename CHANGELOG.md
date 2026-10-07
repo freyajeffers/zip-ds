@@ -11,6 +11,7 @@ All notable changes to this project are recorded here.
 - Phase 1 stylometry metrics: average sentence length, average word length, Yule's K, and function-word ratio.
 - Phase 2 bounded quoted-shingle query generation, query budgets, adaptive stopping, and SQLite WAL SERP metadata caching.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
+- Typed `SecurityError` is raised for paths escaping an authorized extraction root.
 - Explicit package APIs through `__all__` exports.
 - Exhaustive boundary, serialization, cache, public-API, and parser tests.
 - `docs/INVARIANT_AUDIT.md` documenting verified invariants and incomplete future phases.
@@ -20,6 +21,9 @@ All notable changes to this project are recorded here.
 - Project targets Python 3.14.8 and uses `uv` for dependency resolution.
 - Cache persistence excludes candidate titles and snippets to avoid persisting retrieved source plaintext.
 - README now describes only implemented behavior and exact local quality-gate commands.
+- CI runs the same quality gates for pushes to `main` and pull requests.
+- Removed the stale console-script entry because no CLI module exists.
+- Updated development documentation and ignored editor/temporary artifacts.
 
 ### Verification
 

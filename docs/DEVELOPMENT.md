@@ -13,12 +13,20 @@ The current implementation includes the Phase 1 foundation and Phase 2 query/bud
 ## Local commands
 
 ```bash
-uv sync
+uv sync --extra dev
+uv run ruff check .
+uv run black --check .
+uv run mypy zip_ds
 uv run pytest -q
-uv run python -m zip_ds.cli scan sample_essay.pdf --output report.html
 ```
 
-The CLI command is documented as the target interface in `README.md`; it is not implemented yet. Do not treat it as a passing command until `zip_ds.cli` exists.
+Coverage audit command:
+
+```bash
+uv run pytest -q --cov=zip_ds --cov-report=term-missing
+```
+
+There is no implemented CLI or REST scan command in this checkout. Do not document or invoke `zip_ds.cli` until that module exists.
 
 ## Phase 1 boundaries
 
@@ -35,3 +43,5 @@ The CLI command is documented as the target interface in `README.md`; it is not 
 - Isolate References, Bibliography, and Works Cited sections.
 - Bypass Yule's K and CUSUM for 50–300-word texts.
 - Keep external source text ephemeral; no retrieval layer exists yet.
+
+CI runs the same four quality gates on pushes to `main` and all pull requests via `.github/workflows/quality.yml`.

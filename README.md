@@ -43,7 +43,7 @@ uv run pytest -q --cov=zip_ds --cov-report=term-missing
 The supported package exports are defined in:
 
 - `zip_ds`: document and style models
-- `zip_ds.parsers`: extraction and sanitization boundaries
+- `zip_ds.parsers`: extraction, sanitization, and typed `SecurityError` path-boundary exception
 - `zip_ds.queries`: query generation, budgets, cache, dispatch, and splitting
 - `zip_ds.stylometry`: style-analysis functions
 

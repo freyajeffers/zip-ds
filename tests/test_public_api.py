@@ -8,6 +8,7 @@ def test_package_exports_are_explicit_and_importable():
     assert set(root_exports) >= {"DocumentChunk", "StyleScores", "SearchCandidate", "SourceType"}
     assert set(parser_exports) >= {
         "NormalizedText",
+        "SecurityError",
         "normalize_text",
         "read_txt",
         "read_pdf",

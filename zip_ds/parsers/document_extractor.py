@@ -5,6 +5,10 @@ from docx import Document
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
+class SecurityError(ValueError):
+    """Raised when a user-supplied path escapes its authorized root."""
+
+
 class ExtractionResult(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
 
@@ -31,9 +35,9 @@ def canonicalize_and_validate(path: str, root: str) -> str:
     try:
         inside_root = os.path.commonpath([real, root_real]) == root_real
     except ValueError as exc:
-        raise ValueError("Path escapes authorized root") from exc
+        raise SecurityError("Path escapes authorized root") from exc
     if not inside_root:
-        raise ValueError("Path escapes authorized root")
+        raise SecurityError("Path escapes authorized root")
     return real
 
 

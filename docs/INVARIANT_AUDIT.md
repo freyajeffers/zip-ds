@@ -4,7 +4,7 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 
 ## Verified
 
-- Invariant 2: document extraction now requires an authorized root and uses canonical path confinement; sibling-prefix and outside-root tests pass.
+- Invariant 2: document extraction now requires an authorized root, uses canonical path confinement, and raises typed `SecurityError` for escapes; sibling-prefix and outside-root tests pass.
 - Invariant 4: `SerpCache` configures WAL, `busy_timeout=5000`, `synchronous=NORMAL`, and `mmap_size=268435456`; pragma tests pass.
 - Invariant 7: root, parser, query, and stylometry packages expose explicit `__all__` APIs; public API tests pass.
 - Invariant 8: document, style, search, extraction, normalization, budget, cache settings, and cache entry contracts use strict Pydantic v2 models.
@@ -26,5 +26,14 @@ Audit scope: tracked Python source, tests, packaging configuration, and project 
 - `uv run black --check .` — passed
 - `uv run mypy zip_ds` — passed
 - `uv run pytest -q --cov=zip_ds --cov-report=term-missing` — 46 passed, 92% total coverage
+- `.github/workflows/quality.yml` runs the four quality gates on pushes to `main` and pull requests.
 
-Conclusion: implemented phases pass their applicable invariants. The partial items are not silently treated as complete; they are dependencies for the next phases.
+## Documentation and configuration findings
+
+- Removed the stale `plaigarism` console-script entry because no `plaigarism:main` module exists.
+- Added ignores for editor swap, backup, persistent-undo, and temporary files.
+- Updated `docs/DEVELOPMENT.md` to remove the unimplemented CLI command and use the exact dev setup command.
+
+## Remaining gaps
+
+The implementation does not yet satisfy invariants that require future phases: external retrieval lifecycle, token-bucket limiting, provider circuit breakers, revision-lineage reuse, self-collusion suppression, CUSUM routing, seven-word match suppression, alignment, reporting, and REST boundaries.

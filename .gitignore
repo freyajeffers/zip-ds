@@ -4,4 +4,9 @@ coverage/
 .coverage
 .pytest_cache/
 .venv/
+*.swp
+*.swo
+*~
+*.un~
+*.tmp
 

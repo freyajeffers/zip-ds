@@ -4,6 +4,7 @@ import pytest
 
 from zip_ds.parsers.document_extractor import (
     ExtractionResult,
+    SecurityError,
     canonicalize_and_validate,
     read_txt,
 )
@@ -25,7 +26,7 @@ def test_read_txt_rejects_outside_root(tmp_path):
     root.mkdir()
     outside = tmp_path / "outside.txt"
     outside.write_text("secret")
-    with pytest.raises(ValueError):
+    with pytest.raises(SecurityError):
         read_txt(str(outside), str(root))
 
 
@@ -44,5 +45,5 @@ def test_canonicalize_rejects_sibling_prefix(tmp_path):
     sibling = tmp_path / "allowed-escape"
     root.mkdir()
     sibling.mkdir()
-    with pytest.raises(ValueError):
+    with pytest.raises(SecurityError):
         canonicalize_and_validate(str(sibling / "x.txt"), str(root))
