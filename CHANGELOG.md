@@ -19,7 +19,7 @@ All notable changes to this project are recorded here.
 - Candidate retrieval is integrated into the bounded scan pipeline through the ephemeral scraper.
 - SerpAPI adapter is wired through `ProviderManager` into cached, rate-limited query dispatch.
 - Revision-lineage scan orchestration reuses unchanged evidence, suppresses prior-lineage candidates, and retrieves only when new work is required.
-- Strict FastAPI REST endpoints expose scan submission and process-local report lookup without persistent report storage.
+- Strict FastAPI REST endpoints expose scan submission and process-local report lookup without persistent report storage; optional runtime API-key authentication protects both routes.
 - Authorized-root TXT/PDF/DOCX extraction and document-to-report pipeline integration.
 - Strict Pydantic v2 contracts for documents, extraction results, style scores, search candidates, query budgets, cache settings, cache entries, and normalized text.
 - Typed `SecurityError` is raised for paths escaping an authorized extraction root.
@@ -40,7 +40,7 @@ All notable changes to this project are recorded here.
 ### Verification
 
 - Ruff, Black, mypy, and pytest pass.
-- Current test suite: 96 tests passed with 90% total coverage.
+- Current test suite: 97 tests passed with 90% total coverage.
 
 ### Not yet implemented
 

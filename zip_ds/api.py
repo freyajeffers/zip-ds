@@ -1,6 +1,7 @@
+import secrets
 from uuid import UUID
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException
 from pydantic import Field
 
 from zip_ds.models import ValidatedModel
@@ -28,17 +29,25 @@ class ReportStore:
         return self._reports.get(report_id)
 
 
-def create_app() -> FastAPI:
+def create_app(api_key: str | None = None) -> FastAPI:
     """Create the ZIP-DS REST application with an isolated in-memory report store."""
+    if api_key is not None and not api_key:
+        raise ValueError("api_key must be non-empty when configured")
     app = FastAPI(title="ZIP-DS", version="0.1.0")
     store = ReportStore()
 
+    def authorize(x_api_key: str | None = Header(default=None)) -> None:
+        if api_key is not None and (
+            x_api_key is None or not secrets.compare_digest(x_api_key, api_key)
+        ):
+            raise HTTPException(status_code=401, detail="invalid API key")
+
     @app.post("/v1/scan", response_model=PlagiarismReport)
-    def scan(request: ScanRequest) -> PlagiarismReport:
+    def scan(request: ScanRequest, _authorized: None = Depends(authorize)) -> PlagiarismReport:
         return store.put(run_scan(request.document_id, request.suspicious_text, request.sources))
 
     @app.get("/v1/reports/{report_id}", response_model=PlagiarismReport)
-    def report(report_id: UUID) -> PlagiarismReport:
+    def report(report_id: UUID, _authorized: None = Depends(authorize)) -> PlagiarismReport:
         result = store.get(report_id)
         if result is None:
             raise HTTPException(status_code=404, detail="report not found")

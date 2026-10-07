@@ -43,7 +43,7 @@ There is no implemented CLI or REST scan command in this checkout. Do not docume
 - `zip_ds/queries/revisions.py`: cryptographic revision delta partitioning and lineage candidate suppression.
 - `zip_ds/queries/revision_cache.py`: WAL SQLite persistence for derived revision evidence only; no raw text fields.
 - `run_revision_scan()` is the pipeline entry point for revision delta reuse and lineage candidate suppression; it does not retrieve sources when all current chunks have cached evidence.
-- `zip_ds/api.py`: strict FastAPI scan/report endpoints backed by process-local, non-persistent report storage.
+- `zip_ds/api.py`: strict FastAPI scan/report endpoints backed by process-local, non-persistent report storage; optional runtime API-key dependency protects both routes.
 - `zip_ds/alignment/lexical.py`: exact contiguous lexical matches with seven-word suppression.
 - `zip_ds/alignment/semantic.py`: sentence-level token-set semantic approximation with strict thresholds and offsets.
 - `zip_ds/reporting/scoring.py`: evidence-weighted coverage and confidence calculation with seven-word suppression.

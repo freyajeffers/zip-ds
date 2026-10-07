@@ -22,7 +22,7 @@ ZIP-DS is a privacy-oriented plagiarism-attribution project. The current checkou
 - `run_scan()` integrates bounded in-memory alignment and structured reporting over already retrieved sources.
 - `run_scan_from_candidates()` retrieves eligible candidates through the bounded ephemeral scraper before alignment and reporting.
 - `run_scan_from_file()` enforces authorized-root extraction, normalization, bibliography isolation, ephemeral retrieval, alignment, and reporting for TXT, PDF, and DOCX inputs.
-- `create_app()` exposes strict `POST /v1/scan` and process-local `GET /v1/reports/{report_id}` endpoints; report bodies are not persisted to disk.
+- `create_app(api_key=...)` optionally protects both endpoints with a runtime-only API key and constant-time comparison; report bodies are not persisted to disk.
 - Cache persistence excludes candidate titles and snippets; fetched source bodies are not persisted.
 
 ## Setup
